@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card.js'
 
 const CardList = ({fans}) => {
-  return (
+    return (
     <>
       {
        fans.map((user,i) =>{
