@@ -1,4 +1,5 @@
 to do
+- add fan pic placeholder
 - add fan feature
 - delete fan feature
 
