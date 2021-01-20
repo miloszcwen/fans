@@ -1,4 +1,4 @@
-export const fans = [
+const fans = [
   {
     id: 1,
     name: 'Master Disaster',
@@ -60,3 +60,5 @@ export const fans = [
     email: 'Rey.Padberg@karina.biz'
   }
 ];
+
+export default fans;

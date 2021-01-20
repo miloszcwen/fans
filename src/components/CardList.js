@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card.js'
 
-const CardList = ({fans}) => {
+const CardList = ({fans, onDelete}) => {
     return (
     <>
       {
@@ -12,6 +12,7 @@ const CardList = ({fans}) => {
             id={fans[i].id}
             name={fans[i].name}
             email={fans[i].email}
+            onDelete={onDelete}
             />
          );
          })

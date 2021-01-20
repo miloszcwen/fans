@@ -5,7 +5,6 @@ import Scroll from "../components/Scroll.js"
 import ErrorBoundry from "../components/ErrorBoundry";
 import './App.css'
 
-
 class App extends Component {
     constructor(){
         super();
@@ -13,6 +12,7 @@ class App extends Component {
             fans: [],
             searchField: ""
         }
+        this.deleteFan=this.deleteFan.bind(this)
     }
 
     componentDidMount(){
@@ -23,6 +23,17 @@ class App extends Component {
 
     onSearchChange = (event) => {
         this.setState( { searchField: event.target.value })
+    }
+
+    deleteFan = (id)=>{
+        console.log(id);
+        let newFans = this.state.fans.filter(
+            fan=>fan.id !== id
+        )
+        console.log(newFans)
+        this.setState({
+            fans: newFans
+        })
     }
 
     render (){
@@ -39,7 +50,7 @@ class App extends Component {
                 <SearchBox searchChange={this.onSearchChange} />
                 <Scroll>
                     <ErrorBoundry>
-                        <CardList fans={filteredFans} />
+                        <CardList fans={filteredFans} onDelete={this.deleteFan}/>
                     </ErrorBoundry>
                 </Scroll>
                 </>
