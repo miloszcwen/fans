@@ -5,9 +5,9 @@ const SearchBox = ({searchChange}) => {
         <div className="tc pa2 bg-navy">
         <input className="tc navy pa1"
         type='search'
-        placeholder='search fans'
+        placeholder='filter fans'
         onChange={searchChange}
-         />
+        aria-label="Search" />
 
         </div>
     );

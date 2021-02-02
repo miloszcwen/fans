@@ -26,11 +26,9 @@ class App extends Component {
     }
 
     deleteFan = (id)=>{
-        console.log(id);
         let newFans = this.state.fans.filter(
             fan=>fan.id !== id
         )
-        console.log(newFans)
         this.setState({
             fans: newFans
         })

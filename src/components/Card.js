@@ -1,4 +1,6 @@
 import React from 'react';
+import LazyLoad from 'react-lazy-load';
+
 
 class Card extends React.Component {
     constructor (props){
@@ -10,30 +12,22 @@ class Card extends React.Component {
     }
     render(){
         return(
-            <div className='.absolute tc gold bg-navy dib br3 pa3 ma3 grow bw2 shadow-5 hover-light-red'>
-            <img src={`https://robohash.org/test${this.props.id}?set=set5`} alt='loading avatar' />
-            <button className=".relative .top-1 .right-1 f6 grow bn br3 pa2 dib bg-gold navy" href="#0"
-            onClick={this.handleDelete} >delete</button>
-            <div>
-                <h2 className="pa0 ma1">{this.props.name}</h2>
-                <p className="pa0 ma1">{this.props.email}</p>
+            <div className='relative tc gold bg-navy dib br3 pa0 ma3 bw2 shadow-5 hover-light-red'>
+            <div className="grow">
+               <img src={`https://robohash.org/st8a${this.props.id}abc?set=set5`}
+                alt='avatar' className="ma3" loading="lazy" />
+                <div>
+                    <h2 className="pa0 ma0 ">{this.props.name}</h2>
+                    <p className="pa0 mb4 mt0 ">{this.props.email}</p>
+                </div>
             </div>
+            <button className="grow absolute top-1 right-1 hover-light-red b f6 bn br3 pa2 dib bg-gold navy" href="#0"
+                onClick={this.handleDelete} >delete</button>
         </div>
         )
     }
 }
-// const Card = ({id, name, email}) => {
-//     return (
-//         <div className='.absolute tc gold bg-navy dib br3 pa3 ma3 grow bw2 shadow-5 hover-light-red'>
-//             <img src={`https://robohash.org/test${id}?set=set5`} alt='loading avatar image' />
-//             <button class=".relative .top-1 .right-1 f6 grow bn br3 pa2 dib bg-gold navy" href="#0"
-//             >delete</button>
-//             <div>
-//                 <h2 className="pa0 ma1">{name}</h2>
-//                 <p className="pa0 ma1">{email}</p>
-//             </div>
-//         </div>
-//     );
-// }
 
 export default Card;
+
+

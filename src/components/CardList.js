@@ -1,5 +1,7 @@
 import React from 'react';
 import Card from './Card.js'
+import LazyLoad from 'react-lazy-load';
+
 
 const CardList = ({fans, onDelete}) => {
     return (
