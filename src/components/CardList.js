@@ -9,12 +9,12 @@ const CardList = ({fans, onDelete}) => {
       {
        fans.map((user,i) =>{
          return (
-            <Card
-            key={fans[i].id}
-            id={fans[i].id}
-            name={fans[i].name}
-            email={fans[i].email}
-            onDelete={onDelete}
+           <Card
+              key={fans[i].id}
+              id={fans[i].id}
+              name={fans[i].name}
+              email={fans[i].email}
+              onDelete={onDelete}
             />
          );
          })

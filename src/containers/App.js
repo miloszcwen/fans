@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import CardList from '../components/CardList.js';
+import AddCard from '../components/AddCard.js'
+
 import SearchBox from "../components/SearchBox.js";
 import Scroll from "../components/Scroll.js"
 import ErrorBoundry from "../components/ErrorBoundry";
@@ -47,6 +49,7 @@ class App extends Component {
                 <h1 className='bg-navy ma0 pa20 bw2'>My Fanclub</h1>
                 <SearchBox searchChange={this.onSearchChange} />
                 <Scroll>
+                    <AddCard/>
                     <ErrorBoundry>
                         <CardList fans={filteredFans} onDelete={this.deleteFan}/>
                     </ErrorBoundry>
