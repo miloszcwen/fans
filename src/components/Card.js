@@ -20,7 +20,7 @@ class Card extends React.Component {
             className="placeholder bg-navy flex items-center justify-center ma3"
             style={this.state.loaded ? { display: "none" } : {}}
           >
-            Loading an avatar...
+            <p>Loading an avatar...</p>
           </div>
           <img
             src={`https://robohash.org/${this.props.name}abc?set=set5`}
@@ -41,6 +41,7 @@ class Card extends React.Component {
           className="grow absolute top-1 right-1 hover-light-red b f6 bn br3 pa2 dib bg-gold navy"
           href="#0"
           onClick={this.handleDelete}
+          style={{ cursor: "pointer" }}
         >
           delete
         </button>

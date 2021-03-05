@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDom from "react-dom";
+import uuid from "uuid/dist/v4";
 
 const MODAL_STYLES = {
   position: "fixed",
@@ -20,7 +21,21 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function Modal({ open, children, onClose }) {
+export default function Modal({ open, setIsOpen, onClose, addFan }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  function handleAddFan(e) {
+    e.preventDefault();
+    if (name && email) {
+      addFan({ id: uuid(), name: name, email: email });
+      setName("");
+      setEmail("");
+      setIsOpen(false);
+    } else {
+      alert("You must fill name and valid email!");
+    }
+  }
   if (!open) return null;
 
   return ReactDom.createPortal(
@@ -28,15 +43,39 @@ export default function Modal({ open, children, onClose }) {
       <div style={OVERLAY_STYLES} onClick={onClose} />
       <div
         style={MODAL_STYLES}
-        className="tc gold bg-navy dib br3 pa0 ma3 bw2 shadow-5"
+        className="tc gold bg-navy dib br3 pa2 ma2 bw2 shadow-5"
       >
+        <h1 className="mt0">Add a new fan:</h1>
+        <form className="ma2 pa2">
+          <input
+            className="ma1"
+            type="text"
+            value={name}
+            placeholder="name"
+            label="name"
+            onChange={(e) => setName(e.target.value)}
+          ></input>
+          <input
+            className="ma1"
+            type="text"
+            value={email}
+            placeholder="email"
+            label="email"
+            onChange={(e) => setEmail(e.target.value)}
+          ></input>
+          <input
+            type="submit"
+            value="add new fan"
+            onClick={handleAddFan}
+            className="grow hover-light-red b f6 bn br3 pa2 ma1 dib bg-gold navy"
+          ></input>
+        </form>
         <button
-          className="grow hover-light-red b f6 bn br3 pa2 dib bg-gold navy"
+          className="grow hover-light-red b f6 bn br3 pa2 ma2 mt5 dib bg-gold navy"
           onClick={onClose}
         >
-          Close Modal
+          Cancel
         </button>
-        {children}
       </div>
     </>,
     document.getElementById("portal")

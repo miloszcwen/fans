@@ -13,9 +13,13 @@ function App() {
   const [searchField, setSearchField] = useState("");
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then((response) => response.json())
-      .then((users) => setFans(users));
+    if (window.localStorage.getItem("fans")) {
+      setFans(JSON.parse(window.localStorage.getItem("fans")));
+    } else {
+      fetch("https://jsonplaceholder.typicode.com/users")
+        .then((response) => response.json())
+        .then((users) => setFans(users));
+    }
   }, []);
 
   const onSearchChange = (event) => {
@@ -25,16 +29,24 @@ function App() {
   const deleteFan = (id) => {
     const newFans = fans.filter((fan) => fan.id !== id);
     setFans(newFans);
+    window.localStorage.setItem("fans", JSON.stringify(newFans));
+    if (!newFans.length) {
+      console.log("newFans", newFans);
+      window.localStorage.removeItem("fans");
+    }
   };
 
   function handleClose() {
-    console.log("click close");
     setIsOpen(false);
   }
   function handleOpen() {
-    console.log("click open");
-
     setIsOpen(true);
+  }
+
+  function addFan(fan) {
+    const newFans = [...fans, fan];
+    setFans(newFans);
+    window.localStorage.setItem("fans", JSON.stringify(newFans));
   }
 
   const filteredFans = fans.filter((fan) => {
@@ -46,11 +58,16 @@ function App() {
   } else {
     return (
       <>
-        <h1 className="bg-navy ma0 pa20 bw2">My Fanclub</h1>
+        <h1 className="bg-navy ma0 pa2 bw2">My Fanclub</h1>
         <SearchBox searchField={searchField} searchChange={onSearchChange} />
         <Scroll>
           <AddCard onModalOpen={handleOpen} />
-          <Modal open={isOpen} onClose={handleClose}>
+          <Modal
+            open={isOpen}
+            setIsOpen={setIsOpen}
+            onClose={handleClose}
+            addFan={addFan}
+          >
             Fancy Modal
           </Modal>
           <ErrorBoundry>
