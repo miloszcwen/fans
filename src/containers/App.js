@@ -10,15 +10,18 @@ import "./App.css";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [fans, setFans] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchField, setSearchField] = useState("");
 
   useEffect(() => {
     if (window.localStorage.getItem("fans")) {
       setFans(JSON.parse(window.localStorage.getItem("fans")));
+      setIsLoading(false);
     } else {
       fetch("https://jsonplaceholder.typicode.com/users")
         .then((response) => response.json())
         .then((users) => setFans(users));
+      setIsLoading(false);
     }
   }, []);
 
@@ -31,7 +34,6 @@ function App() {
     setFans(newFans);
     window.localStorage.setItem("fans", JSON.stringify(newFans));
     if (!newFans.length) {
-      console.log("newFans", newFans);
       window.localStorage.removeItem("fans");
     }
   };
@@ -49,11 +51,14 @@ function App() {
     window.localStorage.setItem("fans", JSON.stringify(newFans));
   }
 
-  const filteredFans = fans.filter((fan) => {
-    return fan.name.toLowerCase().includes(searchField.toLowerCase());
-  });
+  let filteredFans = [];
+  if (fans.length) {
+    filteredFans = fans.filter((fan) => {
+      return fan.name.toLowerCase().includes(searchField.toLowerCase());
+    });
+  }
 
-  if (!fans.length) {
+  if (isLoading) {
     return <h1>Loading...</h1>;
   } else {
     return (
@@ -67,9 +72,7 @@ function App() {
             setIsOpen={setIsOpen}
             onClose={handleClose}
             addFan={addFan}
-          >
-            Fancy Modal
-          </Modal>
+          ></Modal>
           <ErrorBoundry>
             <CardList fans={filteredFans} onDelete={deleteFan} />
           </ErrorBoundry>

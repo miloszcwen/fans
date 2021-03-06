@@ -25,9 +25,14 @@ export default function Modal({ open, setIsOpen, onClose, addFan }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
+  function validateEmail(email) {
+    var re = /\S+@\S+/;
+    return re.test(email);
+  }
+
   function handleAddFan(e) {
     e.preventDefault();
-    if (name && email) {
+    if (name && validateEmail(email)) {
       addFan({ id: uuid(), name: name, email: email });
       setName("");
       setEmail("");
@@ -68,11 +73,13 @@ export default function Modal({ open, setIsOpen, onClose, addFan }) {
             value="add new fan"
             onClick={handleAddFan}
             className="grow hover-light-red b f6 bn br3 pa2 ma1 dib bg-gold navy"
+            style={{ cursor: "pointer" }}
           ></input>
         </form>
         <button
           className="grow hover-light-red b f6 bn br3 pa2 ma2 mt5 dib bg-gold navy"
           onClick={onClose}
+          style={{ cursor: "pointer" }}
         >
           Cancel
         </button>
