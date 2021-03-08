@@ -15,7 +15,7 @@ Main features:
 
 To do:
 - [x] add fan pic placeholder
-- [ ] add fan feature
+- [x] add fan feature
 - [x] delete fan feature
 
 
