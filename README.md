@@ -11,7 +11,7 @@ Main features:
 
 [See live](https://miloszcwen.github.io/fans/)
 
-![App screenshot](https://mcwen.netlify.app/assets/project2.ee65791bd002eaf5aabc7a2b0256edda.jpg)
+![App screenshot](/public/fans.jpg)
 
 To do:
 - [x] add fan pic placeholder
