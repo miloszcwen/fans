@@ -8,20 +8,35 @@ import ErrorBoundry from "../components/ErrorBoundry";
 import "./App.css";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [fans, setFans] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState(null);
   const [searchField, setSearchField] = useState("");
 
   useEffect(() => {
+    setIsFetching(true);
     if (window.localStorage.getItem("fans")) {
       setFans(JSON.parse(window.localStorage.getItem("fans")));
-      setIsLoading(false);
+      setIsFetching(false);
+      setError(null);
     } else {
       fetch("https://jsonplaceholder.typicode.com/users")
-        .then((response) => response.json())
-        .then((users) => setFans(users));
-      setIsLoading(false);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Failed to fetch data");
+          }
+          return response.json();
+        })
+        .then((users) => {
+          setFans(users);
+          setError(null);
+          setIsFetching(false);
+        })
+        .catch((error) => {
+          setError(error.message);
+          setIsFetching(false);
+        });
     }
   }, []);
 
@@ -33,16 +48,17 @@ function App() {
     const newFans = fans.filter((fan) => fan.id !== id);
     setFans(newFans);
     window.localStorage.setItem("fans", JSON.stringify(newFans));
-    if (!newFans.length) {
-      window.localStorage.removeItem("fans");
-    }
+    // optionally delete empty fan list from ls ("reset fan list")
+    // if (!newFans.length) {
+    //   window.localStorage.removeItem("fans");
+    // }
   };
 
   function handleClose() {
-    setIsOpen(false);
+    setIsModalOpen(false);
   }
   function handleOpen() {
-    setIsOpen(true);
+    setIsModalOpen(true);
   }
 
   function addFan(fan) {
@@ -51,35 +67,34 @@ function App() {
     window.localStorage.setItem("fans", JSON.stringify(newFans));
   }
 
-  let filteredFans = [];
-  if (fans.length) {
-    filteredFans = fans.filter((fan) => {
-      return fan.name.toLowerCase().includes(searchField.toLowerCase());
-    });
-  }
+  const filteredFans = fans.filter((fan) => {
+    return fan.name.toLowerCase().includes(searchField.toLowerCase());
+  });
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  } else {
-    return (
-      <>
-        <h1 className="bg-navy ma0 pa2 bw2">My Fanclub</h1>
-        <SearchBox searchField={searchField} searchChange={onSearchChange} />
+  return (
+    <>
+      <h1 className="bg-navy ma0 pa2 bw2">My Fanclub</h1>
+      <SearchBox searchField={searchField} searchChange={onSearchChange} />
+      {error ? (
+        <h1>{error}</h1>
+      ) : isFetching ? (
+        <h1>Loading fans...</h1>
+      ) : (
         <Scroll>
           <AddCard onModalOpen={handleOpen} />
           <Modal
-            open={isOpen}
-            setIsOpen={setIsOpen}
-            onClose={handleClose}
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            onModalClose={handleClose}
             addFan={addFan}
           ></Modal>
           <ErrorBoundry>
             <CardList fans={filteredFans} onDelete={deleteFan} />
           </ErrorBoundry>
         </Scroll>
-      </>
-    );
-  }
+      )}
+    </>
+  );
 }
 
 export default App;

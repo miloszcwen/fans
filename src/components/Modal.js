@@ -21,7 +21,12 @@ const OVERLAY_STYLES = {
   zIndex: 1000,
 };
 
-export default function Modal({ open, setIsOpen, onClose, addFan }) {
+export default function Modal({
+  isModalOpen,
+  setIsModalOpen,
+  onModalClose,
+  addFan,
+}) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
@@ -36,16 +41,16 @@ export default function Modal({ open, setIsOpen, onClose, addFan }) {
       addFan({ id: uuid(), name: name, email: email });
       setName("");
       setEmail("");
-      setIsOpen(false);
+      setIsModalOpen(false);
     } else {
       alert("You must fill name and valid email!");
     }
   }
-  if (!open) return null;
+  if (!isModalOpen) return null;
 
   return ReactDom.createPortal(
     <>
-      <div style={OVERLAY_STYLES} onClick={onClose} />
+      <div style={OVERLAY_STYLES} onClick={onModalClose} />
       <div
         style={MODAL_STYLES}
         className="tc gold bg-navy dib br3 pa2 ma2 bw2 shadow-5"
@@ -78,7 +83,7 @@ export default function Modal({ open, setIsOpen, onClose, addFan }) {
         </form>
         <button
           className="grow hover-light-red b f6 bn br3 pa2 ma2 mt5 dib bg-gold navy"
-          onClick={onClose}
+          onClick={onModalClose}
           style={{ cursor: "pointer" }}
         >
           Cancel
