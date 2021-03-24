@@ -3,7 +3,10 @@
 React app that uses API and presents data in a responsive way.
 
 Main features:
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1156eaf2ba17f8c26fccf854f0e8889758fdbebd
 - Fetch users from API
 - Present data as user cards
 - Filter users' cards
